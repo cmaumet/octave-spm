@@ -1,10 +1,12 @@
 FROM mtmiller/octave-snapshot
 
-RUN apt-get update && apt-get install -y git
+RUN mkdir /code && cd /code
 
-RUN mkdir /code
+RUN curl https://codeload.github.com/spm/spm12/tar.gz/r7219 | tar -xz
 
-RUN cd /code && git clone https://github.com/spm/spm12.git && cd spm12/src && make PLATFORM=octave && make install PLATFORM=octave && cd ../../..
+RUN mv spm12-r7219 spm12
+
+RUN cd spm12/src && make PLATFORM=octave && make install PLATFORM=octave && cd ../../..
 
 RUN rm /code/spm12/@file_array/private/file2mat.m
 
